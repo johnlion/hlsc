@@ -77,12 +77,14 @@ class Role {
 		/* 数据去重复 */
 
 		//$this->db->where('rolename', $data['rolename'] );
-		$param['data'] = deleteRepeatData($param['data'], 'role', $this->CI->db);
+		$param['data'] = deleteRepeatData($param['data'], 'role', 'rolename', $this->CI->db);
 
 		/* 批量或者单个写入记录到 tb role */
-		$this->CI->db->trans_start();
-		$this->CI->db->insert_batch('role', $param['data']);
-		$this->CI->db->trans_complete();
+		if (count($param['data']) > 0) {
+			$this->CI->db->trans_start();
+			$this->CI->db->insert_batch('role', $param['data']);
+			$this->CI->db->trans_complete();
+		}
 		return $data;
 
 	}

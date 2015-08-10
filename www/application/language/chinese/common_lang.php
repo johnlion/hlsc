@@ -43,6 +43,16 @@ $lang['account'] = '账户';
 $lang['name'] = '名称';
 $lang['password'] = '密码';
 $lang['email'] = '邮箱';
+$lang['modules_installed'] = 'Modules has installed.';
+$lang['modules_installing_failed'] = 'Modules installing failed.';
+$lang['modules_uinstalled'] = 'Modules Uinstalled.';
+$lang['please_try_again_later'] = 'Please tryp again later.';
+$lang['add_success'] = '添加成功';
+$lang['add_failed'] = '添加失败';
+$lang['update_success'] = '更新成功';
+$lang['update_failed'] = '更新失败';
+$lang['delete_success'] = '删除成功';
+$lang['delete_failed'] = '删除失败';
 
 //错误语言包
 $lang['param_error'] = "参数错误";
@@ -80,8 +90,23 @@ $lang['theme'] = "主题";
 $lang['theme_setting'] = "主题设置";
 $lang['theme_choose'] = "选择主题";
 
-//Controller
-$lang['modules_installed'] = 'Modules has installed.';
-$lang['modules_installing_failed'] = 'Modules installing failed.';
-$lang['modules_uinstalled'] = 'Modules Uinstalled.';
-$lang['please_try_again_later'] = 'Please tryp again later.';
+//主题模块语言包
+$lang['theme'] = "主题";
+$lang['theme_setting'] = "主题设置";
+$lang['theme_choose'] = "选择主题";
+
+//订单模块语言包
+$lang['order'] = "订单";
+$lang['order_list'] = "订单列表";
+
+//用户模块语言包
+$lang['user'] = "用户";
+$lang['user_list'] = "用户列表";
+
+//微信语言包
+$lang["wxapi_signatureerror"] = "微信验证不通过";
+$lang["wxapi_signaturesuccess"] = "微信验证成功";
+$lang["wxapi_xml2arrayerror"] = "xml消息转换数组不成功";
+$lang["wxapi_xml2arraysuccess"] = "xml消息转换数组成功";
+$lang["wxapi_replaysuccess"] = "恢复策略成功获取回复消息";
+$lang["wxapi_replayerror"] = "恢复策略获取回复消息失败";

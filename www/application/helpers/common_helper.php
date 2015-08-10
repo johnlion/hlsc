@@ -70,7 +70,7 @@ function cprint($data) {
  * @param  [type] $db    [description]
  * @return [type]        [description]
  */
-function deleteRepeatData($data = array(), $table = '', $db = '') {
+function deleteRepeatData($data = array(), $table = '', $fieldname = '', $db = '') {
 	/* 去重复，并按序单条插入
 	foreach ($data as $key => $value) {
 	$this->db->where('rolename', $value['rolename']);
@@ -88,12 +88,13 @@ function deleteRepeatData($data = array(), $table = '', $db = '') {
 	 */
 
 	foreach ($data as $key => $value) {
-		$db->where('rolename', $value['rolename']);
+		$db->where($fieldname, $value[$fieldname]);
 		$q = $db->get($table);
 
 		if ($q->num_rows() > 0) {
 			unset($data[$key]);
 		}
 	}
+
 	return array_values($data);
 }
