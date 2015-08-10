@@ -23,14 +23,14 @@ class CNode extends CI_Controller {
 	public function index()
 	{
 		$this->load->library('CiNode');
-		
+		if ( isPost ){ extract( $_POST ); }
+		if ( isGet  ){ extract( $_GET );}
 		extract($_POST);
 		$param['nidtype'] = $nidtype;
-		$param['modelid'] = $modelid;
-		$param['uid'] = $uid;
+		$param['nid']  = $nid;
 		echo "<pre>";
 		print_r($param);
-		print_r($this->cinode->insert($param) );
+		print_r($this->cinode->select($param) );
 
 	}
 
