@@ -15,7 +15,7 @@ class AdminUser extends CI_Controller {
 		$this->load->library("CiSmarty");
 		$this->load->library('CiUser');
 		//定义后台模版路径
-		$this->cismarty->assign("THEMEPATH", "/application/" . THEME_ADMIN);
+		$this->cismarty->assign("THEMEPATH", APPLICATION . THEME_ADMIN);
 
 		//取得当前按钮
 		$this->load->helper("admin_menu");
@@ -76,8 +76,8 @@ class AdminUser extends CI_Controller {
 		);*/
 
 		$user = array(
-			"openid" => 'asdfasdf',
-			'gid' => 1,
+			"openid"  => 'asdfasdf',
+			'gid'     => 1,
 			'addtime' => $this->time,
 		);
 
@@ -96,14 +96,14 @@ class AdminUser extends CI_Controller {
 	public function ajax_add() {
 
 		$user = array(
-			"openid" => $this->input->post("openid"),
-			"headimg" => $this->input->post("headimg"),
+			"openid"   => $this->input->post("openid"),
+			"headimg"  => $this->input->post("headimg"),
 			"realname" => $this->input->post("realname"),
-			"mobile" => $this->input->post("mobile"),
-			"qq" => $this->input->post("qq"),
+			"mobile"   => $this->input->post("mobile"),
+			"qq"       => $this->input->post("qq"),
 			"birthday" => $this->input->post("birthday"),
-			"remark" => $this->input->post("remark"),
-			"addtime" => $this->time,
+			"remark"   => $this->input->post("remark"),
+			"addtime"  => $this->time,
 		);
 
 		if ($this->ciuser->insert($user)) {

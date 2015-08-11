@@ -21,8 +21,9 @@ class Theme implements BaseLib {
 		//定义后台模板文件夹
 		define("ADMIN", "admin");
 		//获取模板路径位置
-		$this->theme_path = APPPATH . THEME . '/' . DESKTOP;
-		$this->theme_admin_path = APPPATH . THEME . '/' . ADMIN;
+
+		$this->theme_path = '';
+		$this->theme_admin_path = '';
 	}
 
 	public function install($param = array()) {

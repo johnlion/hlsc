@@ -7,6 +7,8 @@ class Node implements BaseLib {
 		$this->CI = &get_instance();
 		$this->CI->load->database();
 		$this->CI->load->library('CiToPinyin');
+		$this->CI->load->library('CiPage');
+		$this->CI->load->helper('Common');
 		$this->dbprefix = $this->CI->db->dbprefix;
 	}
 
@@ -91,19 +93,68 @@ class Node implements BaseLib {
 	}
 
 	/**
-	 *@author [jack] <[<email address>]>
-	 *@param  [param] $[name] [<description>]
-	 *@return [Obj] [<description>]
+	 * [select 查询]
+	 * @param  array  $param [description]
+	 * @return [type]        [description]
 	 */
 	public function select($param = array()) {
+		/* ----------------------------------------------
+		 * 返回数据集 $data 初始化
+		 * $param['data']记录总录
+		 * $param['status']处理状态 0失败或未处理，1成功
+		 * $param['message']处理消息
+		 * ----------------------------------------------
+		 */
+		$data = array(
+			'data' => array(),
+			'status' => 0,
+			'message' => t('search_failed'),
+		);
 
+		/* ----------------------------------------------
+		 * 翻页 Page
+		 * $param['sql_count']记录总录
+		 * $param['sql']页面的实体数据
+		 * ----------------------------------------------
+		 */
+		extract($param);
+		$offset = $param['page'] - 1;
+		$limit = ' LIMIT ' . $offset . ',' . $param['page_size'];
+
+		/* $where 子句  可自行修改 */
+		$where = " where n.nidtype='{$data['nidtype']}'";
+
+		/* 记录总数 */
+		$param['sql_count'] = trim("
+		select  count(1) as total  from {$this->dbprefix}node  as n
+		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
+		on n.nid = nc.nid {$where} ");
+
+		/* 真实数据 */
+		$param['sql'] = trim("
+		select * from {$this->dbprefix}node  as n
+		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
+		on n.nid = nc.nid  {$where} {$limit} ");
+
+		$data = $this->CI->cipage->page_data_select($param['sql']); //取得数据库真实数据
+		$data['pagebanner'] = $this->CI->cipage->page_banner($param); //取得翻页导航条
+
+		cprint($data);
+		exit();
+		//$this->cipage->page_func($param);
+
+		exit();
 		if (!empty($param)) {
+
+			exit();
 			if (@$param['issingle'] and !empty($param['nid'])) {
 
 				$query = $this->CI->db->get('node', array('nid' => $param['nid']));
 				$childTable = $query->result_array();
 				$childTableName = $childTable[0]['nidtype'];
 				$childQuery = $this->CI->db->get("$childTableName", array('nid' => $param['nid']));
+
+				$result = $this->CI->db->get($tbName, $page_size, (($page - 1) * $page_size))->result_array();
 				$childResult = $childQuery->result_array();
 
 				if (!empty($childResult)) {

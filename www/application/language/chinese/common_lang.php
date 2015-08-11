@@ -31,12 +31,21 @@ $lang['batch'] = '批量';
 $lang['year'] = '年';
 $lang['month'] = '月';
 $lang['day'] = '日';
+$lang['man'] = '男';
+$lang['famale'] = '女';
 $lang['first_page'] = '首页';
 $lang['prev_page'] = '上一页';
 $lang['next_page'] = '下一页';
 $lang['last_page'] = '末页';
 $lang['notice'] = '公告';
 $lang['power'] = '权限';
+$lang['realname'] = "真实姓名";
+$lang['mobile'] = "手机";
+$lang['qq'] = "QQ";
+$lang['birthday'] = "生日";
+$lang['remark'] = "备注";
+$lang['sex'] = "性别";
+$lang['headimg'] = "头像";
 
 //公共语言包
 $lang['account'] = '账户';
@@ -53,12 +62,14 @@ $lang['update_success'] = '更新成功';
 $lang['update_failed'] = '更新失败';
 $lang['delete_success'] = '删除成功';
 $lang['delete_failed'] = '删除失败';
+$lang['search_success'] = '查询成功';
+$lang['search_failed'] = '查询失败';
 
 //错误语言包
 $lang['param_error'] = "参数错误";
 $lang['fields_not_exist'] = "字段不存在,请检查输入的字段是否存在表中。";
 $lang['no_language'] = "找不到对应的语言包";
-
+$lang['no_data'] = "找不到对应的数据";
 //CI自带数据库错误语言包
 $lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
 $lang['db_unable_to_connect'] = 'Unable to connect to your database server using the provided settings.';
@@ -103,11 +114,13 @@ $lang['order_list'] = "订单列表";
 $lang['user'] = "用户";
 $lang['user_list'] = "用户列表";
 $lang['user_add'] = "添加用户";
-
+$lang['user_edit'] = "编辑用户";
 $lang['add_user_success'] = "添加用户成功";
 $lang['add_user_failed'] = "添加用户失败";
-$lang['delete_user_success'] = "添加用户成功";
-$lang['delete_user_failed'] = "添加用户失败";
+$lang['delete_user_success'] = "删除用户成功";
+$lang['delete_user_failed'] = "删除用户失败";
+$lang['edit_user_success'] = "更新用户成功";
+$lang['edit_user_failed'] = "更新用户失败";
 
 $lang['openid'] = "Open ID";
 
@@ -122,6 +135,9 @@ $lang["wx_excurlerror"] = "curl数据返回不成功";
 $lang["wx_excurlsuccess"] = "curl数据返回成功";
 $lang["wx_accesstokenerror"] = "获取accesstoken错误，错误封装在data中";
 $lang["wx_accesstokensuccess"] = "获取accesstoken成功";
+$lang["wx_argument_error"] = "参数缺少";
+$lang["wx_getopenidlistsuccess"] = "获取openid列表成功";
+$lang["wx_getopenidlisterror"] = "获取openid列表不成功";
 
 //node
 $lang["product"] = '产品';

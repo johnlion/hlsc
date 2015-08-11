@@ -21,17 +21,16 @@ class CiSmarty extends Smarty {
 	function CiSmarty() {
 
 		parent::__construct();
+		$uri = explode('/', $_SERVER['REQUEST_URI']);
+		$uri[1] = !isset($uri[1]) ? '' : $uri[1];
 
 		if ($this->is_mobile()) {
-			$$uri = 'mobile';
+			$uri[1] = 'mobile';
 		}
 
 		if ($this->is_weixin()) {
-			$$uri = 'weixin';
+			$uri[1] = 'weixin';
 		}
-
-		$uri = explode('/', $_SERVER['REQUEST_URI']);
-		$uri[1] = !isset($uri[1]) ? '' : $uri[1];
 
 		switch ($uri[1]) {
 		case 'admin':

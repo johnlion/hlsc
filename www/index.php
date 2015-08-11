@@ -111,6 +111,7 @@ $system_path = 'system';
  * NO TRAILING SLASH!
  */
 $application_folder = 'application';
+define('APPLICATION', 'application/');
 
 /*
  *---------------------------------------------------------------

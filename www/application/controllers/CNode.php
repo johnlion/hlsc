@@ -29,21 +29,34 @@ class CNode extends CI_Controller {
 
 	}
 
-	public function index() {
-
+	/**
+	 * [index description]
+	 * uri    domain/nidtype/nid/page
+	 * @param  string  $nidtype [description]
+	 * @param  integer $page    [description]
+	 * @param  string  $nid     [description]
+	 * @return [type]           [description]
+	 */
+	public function index($nidtype = '', $page = 1, $nid = '') {
 		if (isPost()) {extract($_POST);}
 		if (isGet()) {extract($_GET);}
-		/* 模拟数据 */
 
-		/*
-	extract($_POST);
-	$param['nidtype'] = $nidtype;
-	$param['nid'] = $nid;
-	echo "<pre>";
-	print_r($param);
-	print_r($this->cinode->select($param));
-	 */
-
+		/* -----------------------------------------------------
+		 * Talbe Field
+		 * -----------------------------------------------------
+		 */
+		$param['data'] = array(
+			'nidtype' => $nidtype,
+			'nid' => $nid,
+		);
+		/* -----------------------------------------------------
+		 * Page Param
+		 * -----------------------------------------------------
+		 */
+		$param['page'] = isset($page) ? $page : 1;
+		$param['page_size'] = 1; //当前页数
+		$param['show_page'] = 5; //每个分页显示的记录行数
+		print_r($this->cinode->select($param));
 	}
 
 	public function upload() {

@@ -1,23 +1,15 @@
 <?php
 
-class Page {
-	public function __construct() {
-		$this->CI = &get_instance();
-		$this->CI->load->database();
-		$this->CI->load->helper("common");
-		$this->dbprefix = $this->CI->db->dbprefix;
-	}
-
 /*
  * @package                CodeIgniter
- * @author                ken
+ * @author                chandlerxue
  * @since                Version 1.0
- * @date                 2015-07
+ * @date                 2015-08
  *
  * @path                 Codeigniter/application/libraries/page/page.class.php - 文件路径
  * @class                 MY_page - 类名
- * @function         page_func - 函数名
- * @form_method get - 表单模式
+ * @function         page_bannner - 函数名
+ * @form_method 	  get - 表单模式
  * @parameter         $page - 从页面传过来的页码
  * @parameter         $tbName - 表名
  * @parameter         $page_size - 每页显示的记录行数
@@ -46,28 +38,83 @@ insert into page(name) values('name1');
  *- 页面显示的记录条数的变化应该是 (传入的页面-1)*每页显示的记录条数
  *
  *@调用函数的代码编写如下
-$this->load->library('MY_Page');
-if(@$_GET['p'] == null){
-$page = 1;
-}else{
-$page= $_GET['p'];
-}
-$tbName = 'page';
-$page_size = 5;
-$show_page = 5;
-$data['page_banner'] = $this->my_page->page_func($tbName,  $page_size, $show_page, $page);
-$result = $this->CI->db->get($tbName, $page_size, (($page-1)*$page_size))->result_array();
-$data['result'] = $result;
- **/
-	#分页函数
-	public function page_func($tbName = '', $page_size = '', $show_page = '', $page = '') {
+$this->load->library('Page');
+/* ----------------------------------------------
+ * 返回数据集 $data 初始化
+ * $param['data']记录总录
+ * $param['status']处理状态 0失败或未处理，1成功
+ * $param['message']处理消息
+ * ----------------------------------------------
+ */
+#$data = array(
+#	'data' => array(),
+#	'status' => 0,
+#	'message' => t('search_failed'),
+#);
 
+/* ----------------------------------------------
+ * 翻页 Page
+ * $param['sql_count']记录总录
+ * $param['sql']页面的实体数据
+ * ----------------------------------------------
+ */
+#extract($param);
+#$where = " where n.nidtype='{$data['nidtype']}'";
+#$param['sql_count'] = trim("
+#select  count(1) as total  from {$this->dbprefix}node  as n
+#LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
+#on n.nid = nc.nid {$where} ");
+#$param['sql'] = trim("
+#select * from {$this->dbprefix}node  as n
+#LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
+#on n.nid = nc.nid  {$where} ");
+
+#$this->CI->cipage->page_banner($param);
+
+/**********************************************************************/
+class Page {
+	public function __construct() {
+		$this->CI = &get_instance();
+		$this->CI->load->database();
+		$this->CI->load->helper("common");
+		$this->dbprefix = $this->CI->db->dbprefix;
+	}
+
+	/**
+	 * [page_banner 分页banner]
+	 * @param  [type] $param [description]
+	 *      $param['data'] = array()      sql查询where 子句条件
+	 * 		$param['page'] = 1; 		  页面初始化页
+	 *		$param['page_size'] = 5;	  每页显示的记录条数
+	 *		$param['show_page'] = 5;	  显示多少页
+	 *		$param['sql']				  sql记录查询
+	 *		$param['sql_count']           记录总数sql查询语句
+	 * @return [type]        [description]
+	 */
+	public function page_banner($param) {
+		extract($param);
+
+		/* -----------------------------------------------------
+		 * Page 数置初始化
+		 * -----------------------------------------------------
+		 */
 		if ($page == 0 or $page < 0) {
 			$page = 1;
 		} else {
 			$page;
 		}
-		$total = $this->CI->db->get($tbName)->num_rows(); #获取总记录数
+
+		/* -----------------------------------------------------
+		 * 获取总记录数
+		 * -----------------------------------------------------
+		 */
+		$query = $this->CI->db->query($sql_count);
+		$data = $query->result_array();
+		if (count($data) > 0) {
+			$total = $data[0]['total'];
+		}
+
+		//$total = $this->CI->db->get($tbName)->num_rows(); #获取总记录数
 		#$page_size = 5;#每页显示的记录行数
 		#$show_page = 5;#每页显示的页码
 		$total_page = ceil($total / $page_size); #计算可以显示多少个页面
@@ -78,11 +125,15 @@ $data['result'] = $result;
 		$end = $total_page; #结束页码
 		$page_banner = ''; #显示数据 + 分页条
 
-		@$page_banner = '<a href="' . $_SERVER['PHP_SELF'] . '?p=1">首页</a>&nbsp;&nbsp;'; #首页
+		$uri = $this->CI->uri->segments;
+		if (isset($uri[5])) {unset($uri[5]);}
+
+		$uri = '/' . implode('/', $uri);
+		@$page_banner = '<a href="' . $uri . '/1">首页</a>&nbsp;&nbsp;'; #首页
 		if ($prev < 1) {
 			$prev = 1;
 		}
-		@$page_banner .= '<a href="' . $_SERVER['PHP_SELF'] . '?p=' . $prev . '">上一页</a>&nbsp;&nbsp;'; #上一页
+		@$page_banner .= '<a href="' . $uri . '/' . $prev . '">上一页</a>&nbsp;&nbsp;'; #上一页
 
 		#总页数大于想要显示的页数
 		if ($total_page > $show_page) {
@@ -102,7 +153,7 @@ $data['result'] = $result;
 		}
 
 		for ($i = $start; $i <= $end; $i++) {
-			$page_banner .= '<a href="' . $_SERVER['PHP_SELF'] . '?p=' . $i . '">' . $i . '</a>&nbsp;';
+			$page_banner .= '<a href="' . $uri . '/' . $i . '">' . $i . '</a>&nbsp;';
 		}
 
 		#尾部省略
@@ -113,18 +164,39 @@ $data['result'] = $result;
 		if ($next > $total_page) {
 			$next = $total_page;
 		}
-		@$page_banner .= '<a href="' . $_SERVER['PHP_SELF'] . '?p=' . $next . '">下一页</a>&nbsp;&nbsp;'; #下一页
-		@$page_banner .= '<a href="' . $_SERVER['PHP_SELF'] . '?p=' . $total_page . '">末页</a>&nbsp;&nbsp;'; #末页
+
+		@$page_banner .= '<a href="' . $_SERVER['http_request_method_unregister(method)'] . '/' . $next . '">下一页</a>&nbsp;&nbsp;'; #下一页
+		@$page_banner .= '<a href="' . $uri . '/' . $total_page . '">末页</a>&nbsp;&nbsp;'; #末页
 
 		@$page_banner .= '<span>共&nbsp;' . $total_page . '&nbsp;页</span>'; #显示页码总条数
 
 		#页码跳转
 		$page_banner .= '
-                <form action="' . $_SERVER['PHP_SELF'] . '" method="get">
+                <form action="' . $uri . '" method="get">
                 到第<input type="text" size="2" name="p" />页
                 <input type="submit" value="确定" />
                 </form>';
 
 		return $page_banner;
+	}
+
+	function page_data_select($sql) {
+		$data = array(
+			'data' => array(),
+			'status' => 0,
+			'message' => t('search_failed'),
+		);
+		$result = array();
+		$query = $this->CI->db->query($sql);
+		$result = $query->result_array();
+		if (count($result) > 0) {
+			$data = array(
+				'data' => $result,
+				'status' => 1,
+				'message' => t('search_success'),
+			);
+		}
+
+		return $data;
 	}
 }
