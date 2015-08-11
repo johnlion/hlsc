@@ -23,6 +23,9 @@ class CNode extends CI_Controller {
 		parent::__construct();
 		$this->load->helper("common");
 		$this->load->library('CiNode');
+		$this->load->library('CiPage');
+		$this->load->library('CiToPinyin');
+		$this->load->library('CiUpload');
 
 	}
 
@@ -30,12 +33,107 @@ class CNode extends CI_Controller {
 
 		if (isPost()) {extract($_POST);}
 		if (isGet()) {extract($_GET);}
+		/* 模拟数据 */
+
+		/*
+	extract($_POST);
+	$param['nidtype'] = $nidtype;
+	$param['nid'] = $nid;
+	echo "<pre>";
+	print_r($param);
+	print_r($this->cinode->select($param));
+	 */
+
+	}
+
+	public function upload() {
+		$this->ciupload->index();
+		exit();
+	}
+
+	public function nodeinsert() {
+		if (isPost()) {extract($_POST);}
+		if (isGet()) {extract($_GET);}
+		/* 模拟数据 */
+		/* nodetype  article */
+		/*
+		$param = array(
+		'title' => 'article 3aggggg 3uasdfhg',
+		'content' => 'article ddd testarticle 44321423 testarticle testarticle test',
+		'uid' => 4,
+
+		);
+		$_POST['data'] = array
+		(
+		'data' => $param,
+		'nidtype' => 'article',
+		'uid' => 3,
+		);
+		 */
+		/* nodetype  product */
+		/*
+		$param = array(
+		'title' => '豪利精品橱柜002',
+		'content' => '大面积纯白色的橱柜适当搭配部分原木的门板，仿佛置身于清新的北欧',
+		'description' => '大面积纯白色的橱柜适当搭配部分原木的',
+		'rangeprice' => '2000-5000元',
+		'price' => '4200',
+		'oprice' => '2800',
+		'skuid' => 'sku0000001',
+		'storagenum' => 50,
+		'tid_shipping' => 11,
+		'tid_cpfl' => 7,
+		'style' => '红色',
+		'content' => '大面积纯白色的橱柜适当搭配部分原木的大面积纯白色的橱柜适当搭配部分原木的大面积纯白色的橱柜适当搭配部分原木的大面积纯白色的橱柜适当搭配部分原木的',
+		'collocation' => '套餐搭配',
+		'detailparts' => '细节配件',
+		'qualityassurance' => '品质保障',
+		'productparam' => '产品参数',
+
+		);
+		$_POST['data'] = array
+		(
+		'data' => $param,
+		'nidtype' => 'product',
+		'uid' => 3,
+		);
+		 */
+		/* nodetype designer */
+		/*
+		$param = array(
+		'title' => '设计师/豪利B',
+		'description' => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
+		'content' => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
+
+		);
+		$_POST['data'] = array
+		(
+		'data' => $param,
+		'nidtype' => 'designer',
+		'uid' => 3,
+		);
+		 */
+		/* nodetype house */
+
+		$param = array(
+			'title' => '浪温欧式风情 四房三厅',
+			'description' => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
+			'content' => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
+			'roomimg' => 'field.roomimg',
+			'housetypeimg' => 'xxx.jpg',
+			'tid_housetype' => 16,
+		);
+		$_POST['data'] = array
+		(
+			'data' => $param,
+			'nidtype' => 'house',
+			'uid' => 3,
+		);
 		extract($_POST);
-		$param['nidtype'] = $nidtype;
-		$param['nid'] = $nid;
-		echo "<pre>";
-		print_r($param);
-		print_r($this->cinode->select($param));
+		//cprint($this->citopinyin->encode('阿里巴巴科技有限公司'));
+		//print_r($data);
+		//exit();
+		cprint($this->cinode->insert($data));
 
 	}
 

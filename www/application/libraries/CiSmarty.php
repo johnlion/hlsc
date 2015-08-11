@@ -19,12 +19,55 @@ if (!defined('BASEPATH')) {
 require_once 'smarty/Smarty.class.php';
 class CiSmarty extends Smarty {
 	function CiSmarty() {
-		//define('THEME','default');
+
 		parent::__construct();
-		$this->template_dir = APPPATH . '/' . THEME . '/';
-		$this->compile_dir = APPPATH . '/' . THEME . '/' . 'templates_c/';
+
+		if ($this->is_mobile()) {
+			$$uri = 'mobile';
+		}
+
+		if ($this->is_weixin()) {
+			$$uri = 'weixin';
+		}
+
+		$uri = explode('/', $_SERVER['REQUEST_URI']);
+		$uri[1] = !isset($uri[1]) ? '' : $uri[1];
+
+		switch ($uri[1]) {
+		case 'admin':
+			$this->template_dir = APPPATH . THEME_ADMIN . '/';
+
+			break;
+		case 'mobile':
+			$this->template_dir = APPPATH . THEME_MOBILE . '/';
+		case 'weixin':
+			$this->template_dir = APPPATH . THEME_MOBILE . '/';
+		case 'pc':
+			$this->template_dir = APPPATH . THEME_PC . '/';
+			break;
+		default:
+			$this->template_dir = APPPATH . THEME_MOBILE . '/';
+			break;
+		}
+
+		$this->compile_dir = APPPATH . 'cache/' . 'templates_c/';
 		$this->left_delimiter = '{';
 		$this->right_delimiter = '}';
+	}
+
+	function is_weixin() {
+		if (strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false) {
+			return true;
+		}
+		return false;
+	}
+
+	function is_mobile() {
+		if (stripos($_SERVER['HTTP_USER_AGENT'], "android") != false || stripos($_SERVER['HTTP_USER_AGENT'], "ios") != false || stripos($_SERVER['HTTP_USER_AGENT'], "wp") != false) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

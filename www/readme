@@ -75,3 +75,12 @@ t("theme");
 
 
 
+数据返回类型
+			$data = array(
+				'data' => array(),
+				'status' => 1,
+				'message' => t('delete_success'),
+			);
+
+
+

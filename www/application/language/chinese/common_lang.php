@@ -102,11 +102,30 @@ $lang['order_list'] = "订单列表";
 //用户模块语言包
 $lang['user'] = "用户";
 $lang['user_list'] = "用户列表";
+$lang['user_add'] = "添加用户";
+
+$lang['add_user_success'] = "添加用户成功";
+$lang['add_user_failed'] = "添加用户失败";
+$lang['delete_user_success'] = "添加用户成功";
+$lang['delete_user_failed'] = "添加用户失败";
+
+$lang['openid'] = "Open ID";
 
 //微信语言包
 $lang["wxapi_signatureerror"] = "微信验证不通过";
 $lang["wxapi_signaturesuccess"] = "微信验证成功";
 $lang["wxapi_xml2arrayerror"] = "xml消息转换数组不成功";
 $lang["wxapi_xml2arraysuccess"] = "xml消息转换数组成功";
-$lang["wxapi_replaysuccess"] = "恢复策略成功获取回复消息";
-$lang["wxapi_replayerror"] = "恢复策略获取回复消息失败";
+$lang["wxapi_replaysuccess"] = "回复策略成功获取回复消息";
+$lang["wxapi_replayerror"] = "回复策略获取回复消息失败";
+$lang["wx_excurlerror"] = "curl数据返回不成功";
+$lang["wx_excurlsuccess"] = "curl数据返回成功";
+$lang["wx_accesstokenerror"] = "获取accesstoken错误，错误封装在data中";
+$lang["wx_accesstokensuccess"] = "获取accesstoken成功";
+
+//node
+$lang["product"] = '产品';
+$lang["product_list"] = '产品列表';
+$lang["product_add"] = '产品添加';
+$lang["product_delete"] = '产品删除';
+$lang["product_update"] = '产品更新';

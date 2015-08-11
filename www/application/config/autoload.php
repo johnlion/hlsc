@@ -66,7 +66,7 @@ $autoload['packages'] = array();
  */
 
 $autoload['libraries'] = array(
-	//"session",
+	"session",
 	//"CiModule",
 	//"CiNode",
 	//"CiTheme",

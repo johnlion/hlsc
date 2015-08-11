@@ -6,6 +6,7 @@ class Node implements BaseLib {
 	public function __construct() {
 		$this->CI = &get_instance();
 		$this->CI->load->database();
+		$this->CI->load->library('CiToPinyin');
 		$this->dbprefix = $this->CI->db->dbprefix;
 	}
 
@@ -151,6 +152,8 @@ class Node implements BaseLib {
 
 			}
 
+		} else {
+
 		}
 
 	}
@@ -171,6 +174,8 @@ class Node implements BaseLib {
 			$nodetable['nidtype'] = $param['nidtype'];
 			$nodetable['uid'] = $param['uid'];
 			// $sql="INSERT INTO  {$this->dbprefix}node (`nidtype`,`addtime`,`modifytime`,`uid`) VALUES({$param['nidtype']},$time,$time ,{$param['uid']})";
+
+			$this->CI->db->trans_start();
 			$this->CI->db->insert("node", $nodetable);
 			$insertID = $this->CI->db->insert_id();
 
@@ -178,7 +183,7 @@ class Node implements BaseLib {
 				$table = "node_" . $param['nidtype'];
 				$data['data']['insertid'] = $insertID;
 				$data['status'] = 1;
-				$data['message'] = 'success';
+				$data['message'] = t('add_success');
 				$param["data"]["nid"] = $insertID;
 				//echo $table;
 				//print_r($param["data"]);
@@ -190,11 +195,18 @@ class Node implements BaseLib {
 				$data = array(
 					'data' => array(),
 					'status' => 0,
-					'message' => '插入失败！',
+					'message' => t('add_failed'),
 				);
 
 			}
-
+			$this->CI->db->trans_complete();
+			if ($this->CI->db->trans_status() === FALSE) {
+				$data = array(
+					'data' => array(),
+					'status' => 0,
+					'message' => t('add_failed'),
+				);
+			}
 			return $data;
 
 		}
@@ -313,7 +325,7 @@ class Node implements BaseLib {
 		$data = array(
 			'data' => array(),
 			'status' => 0,
-			'message' => 'delete_failed',
+			'message' => t('delete_failed'),
 		);
 		$count = count($param);
 		if ($count > 0 && $count < 2) {
@@ -335,7 +347,7 @@ class Node implements BaseLib {
 			$data = array(
 				'data' => array(),
 				'status' => 1,
-				'message' => 'delete_success',
+				'message' => t('delete_success'),
 			);
 		}
 		return $data;
