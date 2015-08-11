@@ -37,23 +37,23 @@ class CNode extends CI_Controller {
 	 * @param  string  $nid     [description]
 	 * @return [type]           [description]
 	 */
-	public function index($nidtype = '', $page = 1, $nid = '') {
+	public function index($nidtype = '', $nid = '') {
+
 		if (isPost()) {extract($_POST);}
 		if (isGet()) {extract($_GET);}
-
 		/* -----------------------------------------------------
 		 * Talbe Field
 		 * -----------------------------------------------------
 		 */
 		$param['data'] = array(
 			'nidtype' => $nidtype,
-			'nid' => $nid,
+			'nid'     => $nid,
 		);
 		/* -----------------------------------------------------
 		 * Page Param
 		 * -----------------------------------------------------
 		 */
-		$param['page'] = isset($page) ? $page : 1;
+		$param['page']      = isset($page) ? $page : 1;
 		$param['page_size'] = 1; //当前页数
 		$param['show_page'] = 5; //每个分页显示的记录行数
 		print_r($this->cinode->select($param));
@@ -129,18 +129,18 @@ class CNode extends CI_Controller {
 		/* nodetype house */
 
 		$param = array(
-			'title' => '浪温欧式风情 四房三厅',
-			'description' => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
-			'content' => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
-			'roomimg' => 'field.roomimg',
-			'housetypeimg' => 'xxx.jpg',
+			'title'         => '浪温欧式风情 四房三厅',
+			'description'   => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
+			'content'       => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
+			'roomimg'       => 'field.roomimg',
+			'housetypeimg'  => 'xxx.jpg',
 			'tid_housetype' => 16,
 		);
 		$_POST['data'] = array
 		(
-			'data' => $param,
+			'data'    => $param,
 			'nidtype' => 'house',
-			'uid' => 3,
+			'uid'     => 3,
 		);
 		extract($_POST);
 		//cprint($this->citopinyin->encode('阿里巴巴科技有限公司'));
@@ -234,7 +234,7 @@ class CNode extends CI_Controller {
 		/** 模拟数据 */
 		$_POST['data'] = array(
 			'records' => 20,
-			'offset' => 0,
+			'offset'  => 0,
 
 		);
 		extract($_POST);

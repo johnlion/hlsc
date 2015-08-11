@@ -6,4 +6,15 @@ if (!defined('BASEPATH')) {
 include 'rbac/rbac.class.php';
 class CiRBAC extends RBAC {
 
+
+
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	
+
+
+
 }

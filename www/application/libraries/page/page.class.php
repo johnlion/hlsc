@@ -92,6 +92,7 @@ class Page {
 	 * @return [type]        [description]
 	 */
 	public function page_banner($param) {
+
 		extract($param);
 
 		/* -----------------------------------------------------
@@ -109,7 +110,7 @@ class Page {
 		 * -----------------------------------------------------
 		 */
 		$query = $this->CI->db->query($sql_count);
-		$data = $query->result_array();
+		$data  = $query->result_array();
 		if (count($data) > 0) {
 			$total = $data[0]['total'];
 		}
@@ -117,23 +118,34 @@ class Page {
 		//$total = $this->CI->db->get($tbName)->num_rows(); #获取总记录数
 		#$page_size = 5;#每页显示的记录行数
 		#$show_page = 5;#每页显示的页码
-		$total_page = ceil($total / $page_size); #计算可以显示多少个页面
-		$prev = $page - 1; #上一页
-		$next = $page + 1; #下一页
+		$total_page  = ceil($total / $page_size); #计算可以显示多少个页面
+		$prev        = $page - 1; #上一页
+		$next        = $page + 1; #下一页
 		$page_offset = ($show_page - 1) / 2; #计算偏移量
-		$start = 1; #起始页页码
-		$end = $total_page; #结束页码
+		$start       = 1; #起始页页码
+		$end         = $total_page; #结束页码
 		$page_banner = ''; #显示数据 + 分页条
 
-		$uri = $this->CI->uri->segments;
-		if (isset($uri[5])) {unset($uri[5]);}
+		/* 页头 */
+		$page_banner .= '<div class="row">';
+		$page_banner .= '<div class="col-sm-6">';
+		$page_banner .= '    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">总页数' . $total_page . '</div>';
+		$page_banner .= '</div>';
+		$page_banner .= '<div class="col-sm-6">';
+		$page_banner .= '    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">';
+		$page_banner .= '        <ul class="pagination">';
 
-		$uri = '/' . implode('/', $uri);
-		@$page_banner = '<a href="' . $uri . '/1">首页</a>&nbsp;&nbsp;'; #首页
+		$uri = $this->CI->uri->segments;
+		//if (isset($uri[4])) {unset($uri[4]);}
+
+		$uri = '/' . implode('/', $uri) . '?page=';
+
+		@$page_banner .= '<a href="' . $uri . '1">首页</a>&nbsp;&nbsp;'; #首页
 		if ($prev < 1) {
 			$prev = 1;
 		}
-		@$page_banner .= '<a href="' . $uri . '/' . $prev . '">上一页</a>&nbsp;&nbsp;'; #上一页
+
+		$page_banner .= '<li class="paginate_button previous disabled" aria-controls="dataTable" tabindex="0" id="dataTable_previous"><a href=""' . $uri . $prev . '"">Previous</a>';
 
 		#总页数大于想要显示的页数
 		if ($total_page > $show_page) {
@@ -142,10 +154,10 @@ class Page {
 			}
 			if ($page > $page_offset) {
 				$start = $page - $page_offset;
-				$end = $total_page > $page + $page_offset ? $page + $page_offset : $total_page;
+				$end   = $total_page > $page + $page_offset ? $page + $page_offset : $total_page;
 			} else {
 				$start = 1;
-				$end = $total_page > $show_page ? $show_page : $total_page;
+				$end   = $total_page > $show_page ? $show_page : $total_page;
 			}
 			if ($page + $page_offset > $total_page) {
 				$start = $start - ($page + $page_offset - $end);
@@ -153,46 +165,52 @@ class Page {
 		}
 
 		for ($i = $start; $i <= $end; $i++) {
-			$page_banner .= '<a href="' . $uri . '/' . $i . '">' . $i . '</a>&nbsp;';
+			//$page_banner .= '<a href="' . $uri . '/' . $i . '">' . $i . '</a>&nbsp;';
+			$page_banner .= '<li class="paginate_button " aria-controls="dataTable" tabindex="0"><a href="' . $uri . $i . '">' . $i . '</a>';
 		}
 
-		#尾部省略
-		if ($total_page > $show_page and $total_page > $page + $page_offset) {
-			$page_banner .= ' ... ';
-		}
+		##尾部省略
+		#if ($total_page > $show_page and $total_page > $page + $page_offset) {
+		#	$page_banner .= ' ... ';
+		#}
 
 		if ($next > $total_page) {
 			$next = $total_page;
 		}
 
-		@$page_banner .= '<a href="' . $_SERVER['http_request_method_unregister(method)'] . '/' . $next . '">下一页</a>&nbsp;&nbsp;'; #下一页
-		@$page_banner .= '<a href="' . $uri . '/' . $total_page . '">末页</a>&nbsp;&nbsp;'; #末页
+		@$page_banner .= '<li class="paginate_button next" aria-controls="dataTable" tabindex="0" id="dataTable_next"><a href=""' . $_SERVER['http_request_method_unregister(method)'] . '/' . $next . '"">Next</a>';
 
-		@$page_banner .= '<span>共&nbsp;' . $total_page . '&nbsp;页</span>'; #显示页码总条数
+		//@$page_banner .= '<a href="' . $uri . '/' . $total_page . '">末页</a>&nbsp;&nbsp;'; #末页
 
 		#页码跳转
-		$page_banner .= '
-                <form action="' . $uri . '" method="get">
-                到第<input type="text" size="2" name="p" />页
-                <input type="submit" value="确定" />
-                </form>';
+		#$page_banner .= '
+		#        <form action="' . $uri . '" method="get">
+		#        到第<input type="text" size="2" name="p" />页
+		#        <input type="submit" value="确定" />
+		#        </form>';
+
+		/* 页尾  */
+		$page_banner .= '        </ul>';
+		$page_banner .= '    </div>';
+		$page_banner .= '</div>';
+		$page_banner .= '</div>';
 
 		return $page_banner;
 	}
 
 	function page_data_select($sql) {
 		$data = array(
-			'data' => array(),
-			'status' => 0,
+			'data'    => array(),
+			'status'  => 0,
 			'message' => t('search_failed'),
 		);
 		$result = array();
-		$query = $this->CI->db->query($sql);
+		$query  = $this->CI->db->query($sql);
 		$result = $query->result_array();
 		if (count($result) > 0) {
 			$data = array(
-				'data' => $result,
-				'status' => 1,
+				'data'    => $result,
+				'status'  => 1,
 				'message' => t('search_success'),
 			);
 		}

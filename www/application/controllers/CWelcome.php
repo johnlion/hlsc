@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class CWelcome extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('Page');
+
 	}
 
 	/**
@@ -23,9 +23,6 @@ class CWelcome extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
-
-		$data = '1234';
-
 		//$this->load->view('welcome_message');
 	}
 
