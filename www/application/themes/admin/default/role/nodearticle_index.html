@@ -1,0 +1,170 @@
+<!doctype html>
+<html class="no-js">
+  <head>
+    <meta charset="UTF-8">
+    <title>{$title}</title>
+
+    <!--IE Compatibility modes-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--Mobile first-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/font-awesome.min.css">
+
+    <!-- Metis core stylesheet -->
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/main.min.css">
+    
+    <!-- metisMenu stylesheet -->
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/metisMenu.min.css">
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/dataTables.bootstrap.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+      <script src="assets/lib/html5shiv/html5shiv.js"></script>
+      <script src="assets/lib/respond/respond.min.js"></script>
+      <![endif]-->
+
+    <!--For Development Only. Not required -->
+    <script>
+      less = {
+        env: "development",
+        relativeUrls: false,
+        rootpath: "../assets/"
+      };
+    </script>
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/css/style-switcher.css">
+    <link rel="stylesheet/less" type="text/css" href="{$THEMEPATH}/assets/less/theme.less">
+    <script src="{$THEMEPATH}/assets/js/less.min.js"></script>
+
+    <!--Modernizr-->
+    <script src="{$THEMEPATH}/assets/js/modernizr.min.js"></script>
+  </head>
+  <body class="  ">
+    <div class="bg-dark dk" id="wrap">
+      {include file="./../nav.html"}
+      {include file="./../left.html"}
+
+      <div id="content">
+        <div class="outer">
+          <div class="inner bg-light lter">
+
+            <!--Begin Datatables-->
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="box">
+                  <header>
+                    <div class="icons">
+                      <i class="fa fa-table"></i>
+                    </div>
+                    <h5>{$title}</h5>
+                  </header>
+                  <div id="collapse4" class="body">
+                    <table id="dataTable" class="table table-bordered table-condensed table-hover table-striped">
+                      <thead>
+                        <tr>
+                          
+                          <td>{t("nid")}</td>
+                          <td>{t("title")}</td>
+                          <td>{t("author")}</td>
+                          <td>{t("publish_time")}</td>
+                          <td>{t("update_time")}</td>
+                          <td>{t("category_name")}</td>
+                          <td>{t("operation")}</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {debug}
+                         {foreach from = $datalist item = item }
+                        <tr id="user_{$item.uid}">
+                          <td>{$item.nid}</td>
+                          <td>{$item.title}</td>
+                          <td>{$item.realname}</td>
+                          <td>{$item.addtime|date_format:"Y-m-d H:m"}</td>
+                          <td>{$item.modifytime|date_format:"Y-m-d H:m"}</td>
+                          <td>{$item.tid_article}</td>
+
+                          <td>
+                              <input type="button" class="btn btn-danger btn-xs delete" name="{$item.nid}" value="{t('delete')}"/>
+                              <a href="/admin/AdminNodeArticle/edit/{$item.nid}" class="btn btn-warning btn-xs edit" name="{$item.uid}">{t("edit")}</a>
+                          </td>
+                        </tr>
+                        {/foreach}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /.row -->
+            <!--End Datatables-->
+            {$pages}
+            </div>
+          </div><!-- /.inner -->
+        </div><!-- /.outer -->
+      </div><!-- /#content -->
+    </div><!-- /#wrap -->
+     {include file="./../footer.html"}
+
+    <!--jQuery -->
+     <script src="{$THEMEPATH}/assets/js/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.4/js/jquery.dataTables.min.js"></script>
+    <script src="http://cdn.datatables.net/plug-ins/3cfcc339e89/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.18.4/js/jquery.tablesorter.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+    <!--Bootstrap -->
+    <script src="{$THEMEPATH}/assets/js/bootstrap.min.js"></script>
+
+    <!-- MetisMenu -->
+    <script src="{$THEMEPATH}/assets/js/metisMenu.min.js"></script>
+
+    <!-- Screenfull -->
+    <script src="{$THEMEPATH}/assets/js/screenfull.min.js"></script>
+
+    <!-- Metis core scripts -->
+    <script src="{$THEMEPATH}/assets/js/core.min.js"></script>
+
+    <!-- Metis demo scripts -->
+    <script src="{$THEMEPATH}/assets/js/app.js"></script>
+    <script>
+      /*$(function() {
+        Metis.MetisTable();
+        Metis.metisSortable();
+      });*/
+    </script>
+    <script src="{$THEMEPATH}/assets/js/style-switcher.min.js"></script>
+    <script type="text/javascript">
+    $("document").ready(function()
+      {
+          $(".delete").click(function()
+            {
+                var uid = $(this).attr("name");
+                $.ajax({
+                      url:"/admin/AdminUser/ajax_user_delete",
+                      type:"post",
+                      data:"uid="+uid,
+                      dataType:"json",
+                      success:function(data)
+                      {
+                          if(data.status == "1")
+                          {
+                              $("#user_"+uid).hide();
+                          }else
+                          {
+                              alert(data.message)
+                          }
+                      }
+
+                  });
+            });
+      });
+    </script>
+  </body>

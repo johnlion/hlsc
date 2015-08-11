@@ -52,8 +52,8 @@ class Node implements BaseLib {
 
 			} else {
 
-				$query = $this->CI->db->get('node', array('nid' => $param['nid']));
-				$childTable = $query->result_array();
+				$query          = $this->CI->db->get('node', array('nid' => $param['nid']));
+				$childTable     = $query->result_array();
 				$childTableName = $childTable[0]['nidtype'];
 				$this->CI->db->delete('node', array('nid' => $param['nid']));
 				$result = $this->CI->db->delete("node_$childTableName", array('nid' => $param['nid']));
@@ -64,16 +64,16 @@ class Node implements BaseLib {
 			if ($result) {
 
 				$data = array(
-					'data' => array(),
-					'stauts' => 1,
+					'data'    => array(),
+					'stauts'  => 1,
 					'message' => '删除成功 !',
 				);
 
 			} else {
 
 				$data = array(
-					'data' => array(),
-					'stauts' => 1,
+					'data'    => array(),
+					'stauts'  => 1,
 					'message' => '删除失败 !',
 				);
 
@@ -106,8 +106,8 @@ class Node implements BaseLib {
 		 * ----------------------------------------------
 		 */
 		$data = array(
-			'data' => array(),
-			'status' => 0,
+			'data'    => array(),
+			'status'  => 0,
 			'message' => t('search_failed'),
 		);
 
@@ -119,7 +119,7 @@ class Node implements BaseLib {
 		 */
 		extract($param);
 		$offset = $param['page'] - 1;
-		$limit = ' LIMIT ' . $offset . ',' . $param['page_size'];
+		$limit  = ' LIMIT ' . $offset . ',' . $param['page_size'];
 
 		/* $where 子句  可自行修改 */
 		$where = " where n.nidtype='{$data['nidtype']}'";
@@ -127,20 +127,23 @@ class Node implements BaseLib {
 		/* 记录总数 */
 		$param['sql_count'] = trim("
 		select  count(1) as total  from {$this->dbprefix}node  as n
-		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
-		on n.nid = nc.nid {$where} ");
+		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc on n.nid = nc.nid
+		LEFT JOIN {$this->dbprefix}user as c on c.uid = n.uid
+		{$where} ");
 
 		/* 真实数据 */
 		$param['sql'] = trim("
 		select * from {$this->dbprefix}node  as n
-		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc
-		on n.nid = nc.nid  {$where} {$limit} ");
+		LEFT JOIN {$this->dbprefix}node_{$data['nidtype']} as nc on n.nid = nc.nid
+		LEFT JOIN {$this->dbprefix}user as c on c.uid = n.uid
+		{$where} {$limit} ");
 
-		$data = $this->CI->cipage->page_data_select($param['sql']); //取得数据库真实数据
+		//cprint($param);
+
+		$data               = $this->CI->cipage->page_data_select($param['sql']); //取得数据库真实数据
 		$data['pagebanner'] = $this->CI->cipage->page_banner($param); //取得翻页导航条
 
-		cprint($data);
-		exit();
+		return $data;
 		//$this->cipage->page_func($param);
 
 		exit();
@@ -149,26 +152,26 @@ class Node implements BaseLib {
 			exit();
 			if (@$param['issingle'] and !empty($param['nid'])) {
 
-				$query = $this->CI->db->get('node', array('nid' => $param['nid']));
-				$childTable = $query->result_array();
+				$query          = $this->CI->db->get('node', array('nid' => $param['nid']));
+				$childTable     = $query->result_array();
 				$childTableName = $childTable[0]['nidtype'];
-				$childQuery = $this->CI->db->get("$childTableName", array('nid' => $param['nid']));
+				$childQuery     = $this->CI->db->get("$childTableName", array('nid' => $param['nid']));
 
-				$result = $this->CI->db->get($tbName, $page_size, (($page - 1) * $page_size))->result_array();
+				$result      = $this->CI->db->get($tbName, $page_size, (($page - 1) * $page_size))->result_array();
 				$childResult = $childQuery->result_array();
 
 				if (!empty($childResult)) {
 					$data = array(
-						'data' => $childResult,
-						'stauts' => 1,
+						'data'    => $childResult,
+						'stauts'  => 1,
 						'message' => '查询成功 !',
 					);
 
 				} else {
 
 					$data = array(
-						'data' => array(),
-						'stauts' => 1,
+						'data'    => array(),
+						'stauts'  => 1,
 						'message' => '查询失败 !',
 					);
 
@@ -181,20 +184,20 @@ class Node implements BaseLib {
 							LEFT JOIN {$this->dbprefix}node_{$param['nidtype']} as nc
 							on n.nid = nc.nid ";
 					$result = $this->CI->db->query($sql);
-					$data = $result->result_array();
+					$data   = $result->result_array();
 					if (!empty($data)) {
 
 						$data = array(
-							'data' => $data,
-							'stauts' => 1,
+							'data'    => $data,
+							'stauts'  => 1,
 							'message' => '查询成功 !',
 						);
 
 					} else {
 
 						$data = array(
-							'data' => array(),
-							'stauts' => 1,
+							'data'    => array(),
+							'stauts'  => 1,
 							'message' => '查询失败 !',
 						);
 
@@ -217,13 +220,13 @@ class Node implements BaseLib {
 	public function insert($param = array()) {
 
 		if (!empty($param)) {
-			$time = time();
-			$param['addtime'] = $time;
-			$param['modifytime'] = $time;
-			$nodetable['addtime'] = $time;
+			$time                    = time();
+			$param['addtime']        = $time;
+			$param['modifytime']     = $time;
+			$nodetable['addtime']    = $time;
 			$nodetable['modifytime'] = $time;
-			$nodetable['nidtype'] = $param['nidtype'];
-			$nodetable['uid'] = $param['uid'];
+			$nodetable['nidtype']    = $param['nidtype'];
+			$nodetable['uid']        = $param['uid'];
 			// $sql="INSERT INTO  {$this->dbprefix}node (`nidtype`,`addtime`,`modifytime`,`uid`) VALUES({$param['nidtype']},$time,$time ,{$param['uid']})";
 
 			$this->CI->db->trans_start();
@@ -231,11 +234,11 @@ class Node implements BaseLib {
 			$insertID = $this->CI->db->insert_id();
 
 			if ($insertID) {
-				$table = "node_" . $param['nidtype'];
+				$table                    = "node_" . $param['nidtype'];
 				$data['data']['insertid'] = $insertID;
-				$data['status'] = 1;
-				$data['message'] = t('add_success');
-				$param["data"]["nid"] = $insertID;
+				$data['status']           = 1;
+				$data['message']          = t('add_success');
+				$param["data"]["nid"]     = $insertID;
 				//echo $table;
 				//print_r($param["data"]);
 				//exit;
@@ -244,8 +247,8 @@ class Node implements BaseLib {
 			} else {
 
 				$data = array(
-					'data' => array(),
-					'status' => 0,
+					'data'    => array(),
+					'status'  => 0,
 					'message' => t('add_failed'),
 				);
 
@@ -253,8 +256,8 @@ class Node implements BaseLib {
 			$this->CI->db->trans_complete();
 			if ($this->CI->db->trans_status() === FALSE) {
 				$data = array(
-					'data' => array(),
-					'status' => 0,
+					'data'    => array(),
+					'status'  => 0,
 					'message' => t('add_failed'),
 				);
 			}
@@ -289,8 +292,8 @@ class Node implements BaseLib {
 	 */
 	public function node_type_insert($param = array()) {
 		$data = array(
-			'data' => array(),
-			'status' => 0,
+			'data'    => array(),
+			'status'  => 0,
 			'message' => 'Please_write_Form',
 		);
 
@@ -318,15 +321,15 @@ class Node implements BaseLib {
 	 */
 	public function node_type_list($param = array('records' => 20, 'offset' => 0)) {
 		$data = array(
-			'data' => array(),
-			'status' => 1,
+			'data'    => array(),
+			'status'  => 1,
 			'message' => '',
 		);
 		$query = $this->CI->db->get('node_type', $param['records'], $param['offset']);
 		$count = $query->num_rows();
-		$data = array(
-			'data' => $query->result_array(),
-			'status' => 1,
+		$data  = array(
+			'data'    => $query->result_array(),
+			'status'  => 1,
 			'message' => 'search_success',
 		);
 		return $data;
@@ -339,8 +342,8 @@ class Node implements BaseLib {
 	 */
 	public function node_type_update($param = array()) {
 		$data = array(
-			'data' => array(),
-			'status' => 0,
+			'data'    => array(),
+			'status'  => 0,
 			'message' => 'add_failed',
 		);
 
@@ -356,8 +359,8 @@ class Node implements BaseLib {
 
 			}
 			$data = array(
-				'data' => $nodetypenameAssembles,
-				'status' => 0,
+				'data'    => $nodetypenameAssembles,
+				'status'  => 0,
 				'message' => 'add_failed',
 			);
 
@@ -374,8 +377,8 @@ class Node implements BaseLib {
 	 */
 	public function node_type_delete($param = array()) {
 		$data = array(
-			'data' => array(),
-			'status' => 0,
+			'data'    => array(),
+			'status'  => 0,
 			'message' => t('delete_failed'),
 		);
 		$count = count($param);
@@ -388,7 +391,7 @@ class Node implements BaseLib {
 			foreach ($param as $key => $value) {
 				$where[] = "'" . $value['nidtype'] . "'";
 			}
-			$where = implode(',', $where);
+			$where   = implode(',', $where);
 			$wherein = "where `nidtype` in ( {$where} )";
 
 			$sql = "delete from {$this->dbprefix}node_type {$wherein}";
@@ -396,8 +399,8 @@ class Node implements BaseLib {
 		}
 		if ($this->CI->db->affected_rows()) {
 			$data = array(
-				'data' => array(),
-				'status' => 1,
+				'data'    => array(),
+				'status'  => 1,
 				'message' => t('delete_success'),
 			);
 		}

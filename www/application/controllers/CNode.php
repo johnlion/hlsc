@@ -30,7 +30,7 @@ class CNode extends CI_Controller {
 	}
 
 	/**
-	 * [index description]
+	 * [index 产品列表]
 	 * uri    domain/nidtype/nid/page
 	 * @param  string  $nidtype [description]
 	 * @param  integer $page    [description]
@@ -55,7 +55,7 @@ class CNode extends CI_Controller {
 		 */
 		$param['page']      = isset($page) ? $page : 1;
 		$param['page_size'] = 1; //当前页数
-		$param['show_page'] = 5; //每个分页显示的记录行数
+		$param['show_page'] = 5; //页面banner能显示页数
 		print_r($this->cinode->select($param));
 	}
 
@@ -64,23 +64,23 @@ class CNode extends CI_Controller {
 		exit();
 	}
 
-	public function nodeinsert() {
+	public function nodeadd() {
 		if (isPost()) {extract($_POST);}
 		if (isGet()) {extract($_GET);}
 		/* 模拟数据 */
 		/* nodetype  article */
 		/*
 		$param = array(
-		'title' => 'article 3aggggg 3uasdfhg',
+		'title'   => 'article 3aggggg 3uasdfhg',
 		'content' => 'article ddd testarticle 44321423 testarticle testarticle test',
-		'uid' => 4,
+		'uid'     => 4,
 
 		);
 		$_POST['data'] = array
 		(
-		'data' => $param,
+		'data'    => $param,
 		'nidtype' => 'article',
-		'uid' => 3,
+		'uid'     => 3,
 		);
 		 */
 		/* nodetype  product */
@@ -114,34 +114,35 @@ class CNode extends CI_Controller {
 		/* nodetype designer */
 		/*
 		$param = array(
-		'title' => '设计师/豪利B',
-		'description' => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
-		'content' => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
+		'title'       => '设计师/豪利xGAC',
+		'description' => '设计师豪利GxAC简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
+		'content'     => '设计师豪利GxAC介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
 
 		);
 		$_POST['data'] = array
 		(
-		'data' => $param,
+		'data'    => $param,
 		'nidtype' => 'designer',
-		'uid' => 3,
+		'uid'     => 2,
 		);
 		 */
 		/* nodetype house */
-
+		/*
 		$param = array(
-			'title'         => '浪温欧式风情 四房三厅',
-			'description'   => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
-			'content'       => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
-			'roomimg'       => 'field.roomimg',
-			'housetypeimg'  => 'xxx.jpg',
-			'tid_housetype' => 16,
+		'title'         => '浪温欧式风情 四房三厅',
+		'description'   => '设计师豪利B简介，设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介设计师豪利B简介',
+		'content'       => '设计师豪利B介绍设计师豪利B介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍设计师豪利介绍',
+		'roomimg'       => 'field.roomimg',
+		'housetypeimg'  => 'xxx.jpg',
+		'tid_housetype' => 16,
 		);
 		$_POST['data'] = array
 		(
-			'data'    => $param,
-			'nidtype' => 'house',
-			'uid'     => 3,
+		'data'    => $param,
+		'nidtype' => 'house',
+		'uid'     => 3,
 		);
+		 */
 		extract($_POST);
 		//cprint($this->citopinyin->encode('阿里巴巴科技有限公司'));
 		//print_r($data);
@@ -305,7 +306,7 @@ class CNode extends CI_Controller {
 		cprint($this->cinode->node_type_update($data));
 	}
 
-	function nodetypedelete() {
+	function delete() {
 		if (isPost()) {extract($_POST);}
 		if (isGet()) {extract($_GET);}
 

@@ -129,7 +129,7 @@ class Page {
 		/* 页头 */
 		$page_banner .= '<div class="row">';
 		$page_banner .= '<div class="col-sm-6">';
-		$page_banner .= '    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">总页数' . $total_page . '</div>';
+		$page_banner .= '    <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">当前页&nbsp;' . $page . '&nbsp;总页数' . $total_page . '</div>';
 		$page_banner .= '</div>';
 		$page_banner .= '<div class="col-sm-6">';
 		$page_banner .= '    <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">';
@@ -140,7 +140,7 @@ class Page {
 
 		$uri = '/' . implode('/', $uri) . '?page=';
 
-		@$page_banner .= '<a href="' . $uri . '1">首页</a>&nbsp;&nbsp;'; #首页
+		//@$page_banner .= '<a href="' . $uri . '1">首页</a>&nbsp;&nbsp;'; #首页
 		if ($prev < 1) {
 			$prev = 1;
 		}

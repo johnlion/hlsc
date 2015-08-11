@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{$THEMEPATH}/assets/css/datepicker3.min.css">
     <link rel="stylesheet" href="{$THEMEPATH}/assets/css/bootstrap-colorpicker.min.css">
     <link rel="stylesheet" href="{$THEMEPATH}/assets/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="{$THEMEPATH}/assets/lib/validationEngine/validationEngine.jquery.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
@@ -52,7 +53,7 @@
     <link rel="stylesheet" href="{$THEMEPATH}/assets/css/style-switcher.css">
     <link rel="stylesheet/less" type="text/css" href="{$THEMEPATH}/assets/less/theme.less">
     <script src="{$THEMEPATH}/assets/js/less.min.js"></script>
-
+    
     <!--Modernizr-->
     <script src="{$THEMEPATH}/assets/js/modernizr.min.js"></script>
     <style type="text/css">
@@ -102,17 +103,31 @@
                     </div><!-- /.toolbar -->
                   </header>
                   <div id="add-form" class="body">
-                    <form class="form-horizontal" action="user_add" method="post">
+                    <form class="form-horizontal" id="user_add_validate">
                       <div class="form-group">
                         <label for="openid" class="control-label col-lg-4">{t("openid")}</label>
                         <div class="col-lg-4">
-                          <input type="text" id="openid" name="openid" placeholder="openid" class="form-control">
+
+                          <input type="text" id="openid" name="openid" placeholder="openid"  class="validate[required] form-control">
                         </div>
                       </div><!-- /.form-group -->
                       <div class="form-group">
                         <label for="headimg" class="control-label col-lg-4">{t("headimg")}</label>
                         <div class="col-lg-4">
-                          <input class="form-control" type="headimg" id="headimg" name="headimg"/>
+                          <input class="form-control" type="headimg" id="headimg" required  name="headimg"/>
+                        </div>
+                      </div><!-- /.form-group -->
+                       <div class="form-group">
+                        <label for="sex" class="control-label col-lg-4">{t("sex")}</label>
+                        <div class="col-lg-4" id="sex">
+                            <div class="checkbox">
+                                <label>
+                                    <input class="uniform" type="radio" name="sex" value="1" checked>{t("man")}
+                                </label>
+                                <label>
+                                    <input class="uniform" type="radio" name="sex" value="0">{t("famale")}
+                                </label>
+                            </div><!-- /.checkbox -->    
                         </div>
                       </div><!-- /.form-group -->
                       <div class="form-group">
@@ -137,7 +152,7 @@
                        <div class="form-group">
                         <label for="birthday" class="control-label col-lg-4" for="qq">{t("birthday")}</label>
                         <div class="col-lg-4">
-                          <input type="text" id="birthday" name="birthday" placeholder="" class="form-control">
+                          <input type="text" id="birthday" name="birthday" data-date-format="yyyymmdd" class="form-control input-group input-append date">
                         </div>
                       </div><!-- /.form-group -->
                      
@@ -150,7 +165,7 @@
                       <div class="form-group">
                            <div class="col-lg-6"></div>
                           <div class="form-actions col-lg-4">
-                            <input type="submit" value="{t('submit')}" class="btn btn-primary">
+                            <input type="button" value="{t('submit')}" id="submit" class="btn btn-primary">
                           </div>
                       </div>
                     </form>
@@ -177,6 +192,10 @@
     <script src="{$THEMEPATH}/assets/js/bootstrap-datepicker.min.js"></script>
     <script src="{$THEMEPATH}/assets/js/bootstrap-colorpicker.min.js"></script>
     <script src="{$THEMEPATH}/assets/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="{$THEMEPATH}/assets/lib/validationEngine/language/jquery.validationEngine-zh_CN.js"></script>
+    <script src="{$THEMEPATH}/assets/lib/validationEngine/jquery.validationEngine.min.js"></script>
+
+
 
     <!--Bootstrap -->
     <script src="{$THEMEPATH}/assets/js/bootstrap.min.js"></script>
@@ -195,9 +214,39 @@
 
     <!-- Metis demo scripts -->
     <script src="{$THEMEPATH}/assets/js/app.js"></script>
-    <script>
-      $(function() {
-        Metis.formGeneral();
+
+    <script type="text/javascript">
+    $("document").ready(function()
+      {
+          $('#user_add_validate').validationEngine();
+          $("#birthday").datepicker(); 
+          $("#submit").click(function()
+              {
+                  if($('#user_add_validate').validationEngine("validate") === true)
+                  {
+                      var openid = $("#openid").val();
+                      var headimg = $("#headimg").val();
+                      var realname = $("#realname").val();
+                      var mobile = $("#mobile").val();
+                      var qq = $("#qq").val();
+                      var birthday = $("#birthday").val();
+                      var remark = $("#remark").val();
+                       var sex = $("input[name='sex']:checked").val(); 
+                      
+                      $.ajax({
+                          url:"/admin/AdminUser/ajax_user_add",
+                          type:"post",
+                          data:"openid="+openid+"&headimg="+headimg+"&realname="+realname+"&sex="+sex+"&mobile="+mobile+"&qq="+qq+"&birthday="+birthday+"&remark="+remark,
+                          dataType:"json",
+                          success:function(data)
+                          {
+                              alert(data.message);
+                          }
+
+                      });
+                  }
+
+              });
       });
     </script>
     <script src="{$THEMEPATH}/assets/js/style-switcher.min.js"></script>

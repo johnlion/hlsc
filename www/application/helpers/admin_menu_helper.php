@@ -28,52 +28,59 @@ function admin_menu() {
 	$CI->load->helper("common");
 
 	return array(
-		"AdminIndex" => array(
+		"AdminIndex"        => array(
 			'icon' => '',
 			'lang' => t("console"),
-			'url' => '#',
+			'url'  => '#',
 			'list' => array(
 				'index' => array('icon' => '',
-					'lang' => t("console"),
-					'url' => '/admin/AdminIndex',
+					'lang'                  => t("console"),
+					'url'                   => '/admin/AdminIndex/index',
 				),
 			),
 		),
-		"AdminOrder" => array(
+		"AdminOrder"        => array(
 			'icon' => '',
 			'lang' => t("order"),
-			'url' => '#',
+			'url'  => '#',
 			'list' => array(
 				'index' => array('icon' => '',
-					'lang' => t("order_list"),
-					'url' => '/admin/AdminOrder',
+					'lang'                  => t("order_list"),
+					'url'                   => '/admin/AdminOrder/index',
 				),
 			),
 		),
-		"AdminUser" => array(
+
+		"AdminNodeArticle"  => array(
 			'icon' => '',
-			'lang' => t("user"),
-			'url' => '#',
+			'lang' => t("article"),
+			'url'  => '#',
 			'list' => array(
 				'index' => array('icon' => '',
-					'lang' => t("user_list"),
-					'url' => '/admin/AdminUser',
+					'lang'                  => t("article_list"),
+					'url'                   => '/admin/AdminNodeArticle/index',
 				),
-				'add' => array('icon' => '',
-					'lang' => t("user_add"),
-					'url' => '/admin/AdminUser/add',
+				'add'   => array('icon' => '',
+					'lang'                  => t("article_add"),
+					'url'                   => '/admin/AdminNodeArticle/add',
 				),
 			),
 		),
-		"AdminTheme" => array(
-			'icon' => '',
-			'lang' => t("theme"),
-			'url' => '#',
-			'list' => array(
+
+		"AdminNodeProduct"  => array(
+			'icon'  => '',
+			'lang'  => t("product"),
+			'url'   => '#',
+			'list'  => array(
 				'index' => array('icon' => '',
-					'lang' => t("theme_setting"),
-					'url' => '/admin/AdminTheme',
+					'lang'                  => t("product_list"),
+					'url'                   => '/admin/AdminNodeProduct/index',
 				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("product_add"),
+					'url'                   => '/admin/AdminNodeProduct/add',
+				),
+
 				/*'choose'=>array(	'icon'=>'',
 			'lang'=>t("theme_choose"),
 			'url'=>'/index.php/admin/AdminTheme/choose',
@@ -82,22 +89,182 @@ function admin_menu() {
 			'power' => 'return_price',
 		),
 
-		"Product" => array(
+		"AdminNodeHouse"    => array(
+			'icon'  => '',
+			'lang'  => t("house"),
+			'url'   => '#',
+			'list'  => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("house_list"),
+					'url'                   => '/admin/AdminNodeHouse/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("house_add"),
+					'url'                   => '/admin/AdminNodeHouse/add',
+				),
+
+				/*'choose'=>array(	'icon'=>'',
+			'lang'=>t("theme_choose"),
+			'url'=>'/index.php/admin/AdminTheme/choose',
+			),*/
+			),
+			'power' => 'return_price',
+		),
+
+		"AdminNodeDesigner" => array(
+			'icon'  => '',
+			'lang'  => t("designer"),
+			'url'   => '#',
+			'list'  => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("designer_list"),
+					'url'                   => '/admin/AdminNodeDesigner/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("designer_add"),
+					'url'                   => '/admin/AdminNodeDesigner/add',
+				),
+
+				/*'choose'=>array(	'icon'=>'',
+			'lang'=>t("theme_choose"),
+			'url'=>'/index.php/admin/AdminTheme/choose',
+			),*/
+			),
+			'power' => 'return_price',
+		),
+
+		"AdminComment"      => array(
+			'icon'  => '',
+			'lang'  => t("comment"),
+			'url'   => '#',
+			'list'  => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("comment_list"),
+					'url'                   => '/admin/AdminComment/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("comment_add"),
+					'url'                   => '/admin/AdminComment/add',
+				),
+
+				/*'choose'=>array(	'icon'=>'',
+			'lang'=>t("theme_choose"),
+			'url'=>'/index.php/admin/AdminTheme/choose',
+			),*/
+			),
+			'power' => 'return_price',
+		),
+
+		"AdminAppointment"  => array(
+			'icon'  => '',
+			'lang'  => t("appointment"),
+			'url'   => '#',
+			'list'  => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("appointment_list"),
+					'url'                   => '/admin/AdminAppointment/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("appointment_add"),
+					'url'                   => '/admin/AdminAppointment/add',
+				),
+
+				/*'choose'=>array(	'icon'=>'',
+			'lang'=>t("theme_choose"),
+			'url'=>'/index.php/admin/AdminTheme/choose',
+			),*/
+			),
+			'power' => 'return_price',
+		),
+
+		"AdminUser"         => array(
 			'icon' => '',
-			'lang' => t("product"),
-			'url' => '#',
+			'lang' => t("user"),
+			'url'  => '#',
 			'list' => array(
 				'index' => array('icon' => '',
-					'lang' => t("product_list"),
-					'url' => '/admin/AdminNode/index/product',
+					'lang'                  => t("user_list"),
+					'url'                   => '/admin/AdminUser/index',
 				),
-				'insert' => array('icon' => '',
-					'lang' => t("product_add"),
-					'url' => '/admin/AdminNode/nodeinsert/product',
+				'add'   => array('icon' => '',
+					'lang'                  => t("user_add"),
+					'url'                   => '/admin/AdminUser/add',
 				),
-				'update' => array('icon' => '',
-					'lang' => t("product_update"),
-					'url' => '/admin/AdminNode/nodeupdate/product',
+			),
+		),
+
+		"AdminUserGroup"    => array(
+			'icon' => '',
+			'lang' => t("user_group"),
+			'url'  => '#',
+			'list' => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("user_group_list"),
+					'url'                   => '/admin/AdminUserGroup/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("user_group_add"),
+					'url'                   => '/admin/AdminUserGroup/add',
+				),
+			),
+		),
+
+		"AdminRole"         => array(
+			'icon' => '',
+			'lang' => t("role"),
+			'url'  => '#',
+			'list' => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("role_list"),
+					'url'                   => '/admin/AdminRole/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("role_add"),
+					'url'                   => '/admin/AdminRole/add',
+				),
+			),
+		),
+
+		"AdminPrivilege"    => array(
+			'icon' => '',
+			'lang' => t("privilege"),
+			'url'  => '#',
+			'list' => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("privilege_list"),
+					'url'                   => '/admin/AdminPrivilege/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("privilege_add"),
+					'url'                   => '/admin/AdminPrivilege/add',
+				),
+			),
+		),
+
+		"AdminMoudle"       => array(
+			'icon' => '',
+			'lang' => t("module"),
+			'url'  => '#',
+			'list' => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("module_list"),
+					'url'                   => '/admin/AdminMoudle/index',
+				),
+				'add'   => array('icon' => '',
+					'lang'                  => t("module_add"),
+					'url'                   => '/admin/AdminMoudle/add',
+				),
+			),
+		),
+
+		"AdminTheme"        => array(
+			'icon'  => '',
+			'lang'  => t("theme"),
+			'url'   => '#',
+			'list'  => array(
+				'index' => array('icon' => '',
+					'lang'                  => t("theme_setting"),
+					'url'                   => '/admin/AdminTheme',
 				),
 				/*'choose'=>array(	'icon'=>'',
 			'lang'=>t("theme_choose"),
